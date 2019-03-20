@@ -32,9 +32,9 @@ def AzumioFormat(strURL, strPathfilenameOut):
         log("I/O Error: {}".format(detail))
         r = False
     else:
-        log("received: {}".format(strURL))
+        # log("received: {}".format(strURL))
         width, height = im.size
-        log("image size w:{} x h:{}".format(width, height))
+        # log("image size w:{} x h:{}".format(width, height))
 
         if (width != height):  # not a square image!
             cw = int(ceil(width / 2.0))
@@ -67,7 +67,7 @@ def AzumioJSONparse(response_text):
     """
     obj = json.loads(response_text)
 
-    log("from Azumio: {}".format(response_text[:64]))
+    # log("from Azumio: {}".format(response_text[:64]))
 
     dictReturn = dict()
     # strGroupName = obj["results"][0]["group"]   # these would be different each time, can't parse that on the ThunkableX end!
@@ -94,7 +94,7 @@ def listen():
     strImageURL = request.form['input']
     AzumioFormat(strImageURL, 'hinbtemporaryimage.jpg')  # LOCAL USAGE: /users/brad/desktop just a spot on disk for transfer of the image file to the Azumio API
     strEndPointWithKey = "https://api-2445582032290.production.gw.apicast.io/v1/foodrecognition?user_key={}".format(os.environ["ACCESS_TOKEN"])
-    log("endpoint: {}".format(strEndPointWithKey))
+    # log("endpoint: {}".format(strEndPointWithKey))
 
     response = requests.post(strEndPointWithKey,
                              files={"file": ("media", open('hinbtemporaryimage.jpg', 'rb'), "image/jpeg")})  # LOCAL USAGE: /users/brad/desktop/hinbtemporaryimage.jpg
