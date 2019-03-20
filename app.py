@@ -32,7 +32,9 @@ def AzumioFormat(strURL, strPathfilenameOut):
         log("I/O Error: {}".format(detail))
         r = False
     else:
+        log("received: {}".format(strURL))
         width, height = im.size
+        log("image size w:{} x h:{}".format(width, height))
 
         if (width != height):  # not a square image!
             cw = int(ceil(width / 2.0))
