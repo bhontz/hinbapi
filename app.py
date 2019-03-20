@@ -11,8 +11,6 @@ def log(msg):  # simple wrapper for logging to stdout on heroku
     try:
         if type(msg) is dict:
             msg = json.dumps(msg)
-        else:
-            msg = str(msg, 'utf-8')
         sys.stdout.write(u"{}: {}".format(datetime.now(), msg))
     except UnicodeEncodeError:
         pass  # squash logging errors in case of non-ascii text
