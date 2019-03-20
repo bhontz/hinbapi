@@ -86,10 +86,10 @@ def AzumioJSONparse(response_text):
 @app.route("/", methods=['POST'])
 def listen():
     strImageURL = request.form['input']
-    AzumioFormat(strImageURL, '/users/brad/desktop/image.jpg')  # just a spot on disk for transfer of the image file to the Azumio API
+    AzumioFormat(strImageURL, 'hinbtemporaryimage.jpg')  # LOCAL USAGE: /users/brad/desktop just a spot on disk for transfer of the image file to the Azumio API
 
-    response = requests.post("https://api-2445582032290.production.gw.apicast.io/v1/foodrecognition?user_key=***REMOVED***",
-                             files={"file": ("media", open('/users/brad/desktop/image.jpg', 'rb'), "image/jpeg")})
+    response = requests.post("https://api-2445582032290.production.gw.apicast.io/v1/foodrecognition?user_key=" + "ACCESS_TOKEN",
+                             files={"file": ("media", open('hinbtemporaryimage.jpg', 'rb'), "image/jpeg")})  # LOCAL USAGE: /users/brad/desktop/hinbtemporaryimage.jpg
 
 
     return(AzumioJSONparse(response.text))
