@@ -3,8 +3,20 @@ from PIL import Image
 from math import ceil
 import sys, requests, json
 from io import BytesIO
+from datetime import datetime
 
 app = Flask(__name__)
+
+def log(msg):  # simple wrapper for logging to stdout on heroku
+    try:
+        if type(msg) is dict:
+            msg = json.dumps(msg)
+        else:
+            msg = str(msg, 'utf-8')
+        sys.stdout.write(u"{}: {}".format(datetime.now(), msg))
+    except UnicodeEncodeError:
+        pass  # squash logging errors in case of non-ascii text
+    sys.stdout.flush()
 
 def AzumioFormat(strURL, strPathfilenameOut):
     """
@@ -19,7 +31,7 @@ def AzumioFormat(strURL, strPathfilenameOut):
         response = requests.get(strURL)
         im = Image.open(BytesIO(response.content))
     except(IOError) as detail:
-        sys.stdout.write("I/O Error: {}".format(detail))
+        log("I/O Error: {}".format(detail))
         r = False
     else:
         width, height = im.size
@@ -41,7 +53,7 @@ def AzumioFormat(strURL, strPathfilenameOut):
         try:
             im.save(strPathfilenameOut)
         except(IOError) as detail:
-            sys.stdout.write("I/O Error: {}".format(detail))
+            log("I/O Error: {}".format(detail))
             r = False
 
     return(r)
@@ -55,7 +67,7 @@ def AzumioJSONparse(response_text):
     """
     obj = json.loads(response_text)
 
-    sys.stdout.write(response_text[:64])
+    log(response_text[:64])
 
     dictReturn = dict()
     # strGroupName = obj["results"][0]["group"]   # these would be different each time, can't parse that on the ThunkableX end!
