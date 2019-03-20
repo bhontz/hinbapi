@@ -1,7 +1,7 @@
 from flask import Flask, request
 from PIL import Image
 from math import ceil
-import requests, json
+import sys, requests, json
 from io import BytesIO
 
 app = Flask(__name__)
@@ -19,7 +19,7 @@ def AzumioFormat(strURL, strPathfilenameOut):
         response = requests.get(strURL)
         im = Image.open(BytesIO(response.content))
     except(IOError) as detail:
-        print("I/O Error: {}".format(detail))
+        sys.stdout.write("I/O Error: {}".format(detail))
         r = False
     else:
         width, height = im.size
@@ -41,7 +41,7 @@ def AzumioFormat(strURL, strPathfilenameOut):
         try:
             im.save(strPathfilenameOut)
         except(IOError) as detail:
-            print("I/O Error: {}".format(detail))
+            sys.stdout.write("I/O Error: {}".format(detail))
             r = False
 
     return(r)
@@ -54,6 +54,8 @@ def AzumioJSONparse(response_text):
     looks like: {"Apple": [{"name": "Red Apple", "servingSize": "1 large", "calories": 153}, {"name": "Sliced Apple", "servingSize": "1 slice", "calories": 10}, ... ]}
     """
     obj = json.loads(response_text)
+
+    sys.stdout.write(response_text[:64])
 
     dictReturn = dict()
     # strGroupName = obj["results"][0]["group"]   # these would be different each time, can't parse that on the ThunkableX end!
