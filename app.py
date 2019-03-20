@@ -1,7 +1,7 @@
 from flask import Flask, request
 from PIL import Image
 from math import ceil
-import sys, requests, json
+import os, sys, requests, json
 from io import BytesIO
 from datetime import datetime
 
@@ -89,19 +89,11 @@ def AzumioJSONparse(response_text):
 # had to set ThunkableX header to Content-Type:application/x-www-form-urlencoded
 # and i could then set the Body using a block to "input=yourstringhere"
 
-# this is how you CURL to the API as a test outside of ThunkableX (i.e. replicating ThunkableX's blocks)
-# (and here using a test photo in the Coludinary database)
-# curl -H "Content-Type:application/x-www-form-urlencoded" -d "input=https://res.cloudinary.com/dpeqsj31d/image/upload/v1552344323/apple.jpg" http://127.0.0.1:5000
-#
-# base Azumio post:
-# curl -H -i -F media=@image.jpeg https://api-2445582032290.production.gw.apicast.io/v1/foodrecognition?user_key=***REMOVED***
-
-
 @app.route("/", methods=['POST'])
 def listen():
     strImageURL = request.form['input']
     AzumioFormat(strImageURL, 'hinbtemporaryimage.jpg')  # LOCAL USAGE: /users/brad/desktop just a spot on disk for transfer of the image file to the Azumio API
-    strEndPointWithKey = "https://api-2445582032290.production.gw.apicast.io/v1/foodrecognition?user_key={}".format("***REMOVED***")
+    strEndPointWithKey = "https://api-2445582032290.production.gw.apicast.io/v1/foodrecognition?user_key={}".format(os.environ["ACCESS_TOKEN"])
     log("endpoint: {}".format(strEndPointWithKey))
 
     response = requests.post(strEndPointWithKey,
