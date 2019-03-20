@@ -12,4 +12,6 @@ Consequently, this little API was written to receive the URL of an image from Th
 
 Since the Azumio API returns more JSON than we'd consider using with the Thunkable X app, this API also filters down the JSON response from the Azumio API before passing it back to the Thunkable X app.
 
-A note regarding calling this API from Thunkable X; I had to set the Thunkable X (in design mode) header argument to Content-Type:application/x-www-form-urlencoded. Within the block coding (i.e. API block), I then set the body to "input=urlOfImage".  I used the form name "input" within this API.  
+A note regarding calling this API from Thunkable X; I had to set the Thunkable X (in design mode) header argument to Content-Type:application/x-www-form-urlencoded. Within the block coding (i.e. API block), I then set the body to "input=urlOfImage".  I used the form name "input" within this API.
+
+Lastly, I'm using the Heroku Settings/Config Variable ACCESS_TOKEN to hold the secret Azumio API key.  
