@@ -101,7 +101,7 @@ def AzumioJSONparse(response_text):
 def listen():
     strImageURL = request.form['input']
     AzumioFormat(strImageURL, 'hinbtemporaryimage.jpg')  # LOCAL USAGE: /users/brad/desktop just a spot on disk for transfer of the image file to the Azumio API
-    strEndPointWithKey = "https://api-2445582032290.production.gw.apicast.io/v1/foodrecognition?user_key={}".format("ACCESS_TOKEN")
+    strEndPointWithKey = "https://api-2445582032290.production.gw.apicast.io/v1/foodrecognition?user_key={}".format("***REMOVED***")
     log("endpoint: {}".format(strEndPointWithKey))
 
     response = requests.post(strEndPointWithKey,
